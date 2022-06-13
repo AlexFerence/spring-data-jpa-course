@@ -61,6 +61,23 @@ public class Student {
     )
     private StudentIdCard studentIdCard;
 
+    @ManyToMany(
+            cascade = CascadeType.ALL
+    )
+    @JoinTable(
+            name = "enrolment",
+            joinColumns = @JoinColumn(
+                    name = "student_id",
+                    foreignKey = @ForeignKey(name = "enrolment_student_id")
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "course_id",
+                    foreignKey = @ForeignKey(name = "enrolment_course_id")
+            )
+    )
+    private List<Course> courses = new ArrayList<Course>();
+
+
     public Student(String firstName, String lastName, String email, Integer age) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -110,6 +127,16 @@ public class Student {
         this.age = age;
     }
 
+
+    public void enroll(Course course) {
+        courses.add(course);
+        course.getStudents().add(this);
+    }
+
+    public void unenroll(Course course) {
+        courses.remove(course);
+        course.getStudents().remove(this);
+    }
 
     @Override
     public String toString() {
