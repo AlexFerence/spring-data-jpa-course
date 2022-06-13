@@ -21,8 +21,7 @@ public class Application {
     @Bean
     CommandLineRunner commandLineRunner(
             StudentRepository studentRepository,
-            StudentIdCardRepository studentIdCardRepository,
-            BookRepository bookRepository
+            StudentIdCardRepository studentIdCardRepository
             ) {
         return args -> {
             Faker faker = new Faker();
@@ -38,9 +37,6 @@ public class Application {
             StudentIdCard studentIdCard = new StudentIdCard("12345", newStudent);
 
             studentIdCardRepository.save(studentIdCard);
-
-
-            newStudent.addBook(new Book("Harry Potter"));
 
             studentIdCardRepository.findById(studentIdCard.getId())
                     .ifPresent(System.out::println);
