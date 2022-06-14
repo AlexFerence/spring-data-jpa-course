@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootApplication
@@ -44,11 +45,18 @@ public class Application {
             );
 
             newStudent.addEnrolment(new Enrolment(
+                    new EnrolmentId(newStudent.getId(), COMP307.getId()),
                     newStudent,
-                    COMP307
+                    COMP307,
+                    LocalDateTime.now()
             ));
 
-
+            newStudent.addEnrolment(new Enrolment(
+                    new EnrolmentId(newStudent.getId(), COMP421.getId()),
+                    newStudent,
+                    COMP421,
+                    LocalDateTime.now()
+            ));
 
             studentRepository.save(newStudent);
 
