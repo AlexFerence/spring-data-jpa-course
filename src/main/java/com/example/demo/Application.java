@@ -43,23 +43,14 @@ public class Application {
                 "CS"
             );
 
-            newStudent.enroll(COMP421);
-            newStudent.enroll(COMP307);
+            newStudent.addEnrolment(new Enrolment(
+                    newStudent,
+                    COMP307
+            ));
+
+
 
             studentRepository.save(newStudent);
-
-            studentRepository.findById(1L)
-                    .ifPresent(student -> {
-                        System.out.println(student);
-                    });
-
-            newStudent.unenroll(COMP421);
-
-            studentRepository.save(newStudent);
-
-
-
-
 
         };
     }

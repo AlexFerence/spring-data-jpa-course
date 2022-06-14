@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -7,7 +8,7 @@ import javax.persistence.Embeddable;
 
 // Class for two composite keys
 @Embeddable
-public class EnrolmentId {
+public class EnrolmentId implements Serializable {
 
    @Column(name = "student")
    private Long studentId;

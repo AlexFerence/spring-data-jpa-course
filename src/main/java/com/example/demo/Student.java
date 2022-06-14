@@ -53,21 +53,10 @@ public class Student {
     private StudentIdCard studentIdCard;
 
     // Should be two
-    @ManyToMany(
+    @OneToMany(
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
     )
-    @JoinTable(
-            name = "enrolment",
-            joinColumns = @JoinColumn(
-                    name = "student_id",
-                    foreignKey = @ForeignKey(name = "enrolment_student_id_fk")
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "course_id",
-                    foreignKey = @ForeignKey(name = "enrolment_course_id_fk")
-            )
-    )
-    private List<Course> courses = new ArrayList<Course>();
+    private List<Enrolment> enrolments = new ArrayList<>();
 
     public Student(String firstName, String lastName, String email, Integer age) {
         this.firstName = firstName;
@@ -118,14 +107,14 @@ public class Student {
         this.age = age;
     }
 
-    public void enroll(Course course) {
-        courses.add(course);
-        course.getStudents().add(this);
+    public void addEnrolment(Enrolment enrolment) {
+        if (!enrolments.contains(enrolment)) {
+            enrolments.add(enrolment);
+        }
     }
 
-    public void unenroll(Course course) {
-        courses.remove(course);
-        course.getStudents().remove(this);
+    public void removeEnrolment(Enrolment enrolment) {
+        enrolments.remove(enrolment);
     }
 
 
