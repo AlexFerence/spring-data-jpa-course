@@ -21,8 +21,7 @@ public class Application {
     @Bean
     CommandLineRunner commandLineRunner(
             StudentRepository studentRepository,
-            StudentIdCardRepository studentIdCardRepository,
-            CourseRepository courseRepository
+            StudentIdCardRepository studentIdCardRepository
             ) {
         return args -> {
             Faker faker = new Faker();
@@ -35,27 +34,28 @@ public class Application {
                     faker.number().numberBetween(18, 55)
             );
 
-            studentRepository.save(newStudent);
-
-            Course comp361 = new Course(
-                    "COMP 361",
-                    "CS"
-            );
-
-            Course comp307 = new Course(
+            Course COMP307 = new Course(
                     "COMP 307",
                     "CS"
             );
+            Course COMP421 = new Course(
+                "COMP 421",
+                "CS"
+            );
 
-            courseRepository.save(comp307);
-            courseRepository.save(comp361);
+            newStudent.enroll(COMP421);
+            newStudent.enroll(COMP307);
 
-            newStudent.enroll(comp307);
+            studentRepository.save(newStudent);
 
+            studentRepository.findById(1L)
+                    .ifPresent(student -> {
+                        System.out.println(student);
+                    });
 
+            newStudent.unenroll(COMP421);
 
-
-
+            studentRepository.save(newStudent);
 
 
 

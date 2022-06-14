@@ -5,15 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-//@Table(
-//        name = "student",
-//        uniqueConstraints = {
-//                @UniqueConstraint(
-//                        name = "student_email_unique",
-//                        columnNames = "email"
-//                )
-//        }
-//)
 @Entity(name = "student")
 public class Student {
     // Have the id start at 1 and increase with each record
@@ -61,22 +52,22 @@ public class Student {
     )
     private StudentIdCard studentIdCard;
 
+    // Should be two
     @ManyToMany(
-            cascade = CascadeType.ALL
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
     )
     @JoinTable(
             name = "enrolment",
             joinColumns = @JoinColumn(
                     name = "student_id",
-                    foreignKey = @ForeignKey(name = "enrolment_student_id")
+                    foreignKey = @ForeignKey(name = "enrolment_student_id_fk")
             ),
             inverseJoinColumns = @JoinColumn(
                     name = "course_id",
-                    foreignKey = @ForeignKey(name = "enrolment_course_id")
+                    foreignKey = @ForeignKey(name = "enrolment_course_id_fk")
             )
     )
     private List<Course> courses = new ArrayList<Course>();
-
 
     public Student(String firstName, String lastName, String email, Integer age) {
         this.firstName = firstName;
@@ -127,7 +118,6 @@ public class Student {
         this.age = age;
     }
 
-
     public void enroll(Course course) {
         courses.add(course);
         course.getStudents().add(this);
@@ -137,6 +127,7 @@ public class Student {
         courses.remove(course);
         course.getStudents().remove(this);
     }
+
 
     @Override
     public String toString() {

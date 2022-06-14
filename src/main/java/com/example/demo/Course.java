@@ -1,90 +1,100 @@
 package com.example.demo;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity(name = "Course")
+@Table(name = "course")
 public class Course {
-    @Id
-    @SequenceGenerator(
-            name = "course_sequence",
-            sequenceName = "course_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "course_sequence"
-    )
-    @Column(
-            updatable = false
-    )
-    private Long id;
+   @Id
+   @SequenceGenerator(
+           name = "course_sequence",
+           sequenceName = "course_sequence",
+           allocationSize = 1
+   )
+   @GeneratedValue(
+           strategy = GenerationType.SEQUENCE,
+           generator = "course_sequence"
+   )
+   @Column(
+           updatable = false
+   )
+   private long id;
 
-    @Column(
-            nullable = false,
-            columnDefinition = "TEXT"
-    )
-    private String courseName;
+   @Column(
+           name = "name",
+           nullable = false,
+           columnDefinition = "TEXT"
+   )
+   private String name;
 
-    @Column(
-            nullable = false,
-            columnDefinition = "TEXT"
-    )
-    private String department;
+   @Column(
+           name = "department",
+           nullable = false,
+           columnDefinition = "TEXT"
+   )
+   private String department;
 
-    @ManyToMany(
-            mappedBy = "courses",
-            cascade = CascadeType.ALL
-    )
-    private List<Student> students = new ArrayList<>();
+   @ManyToMany(
+           mappedBy = "courses"
+   )
+   private List<Student> students = new ArrayList<>();
 
-    public Course(String courseName, String department) {
-        this.courseName = courseName;
-        this.department = department;
-    }
+   public Course(String name, String department) {
+      this.name = name;
+      this.department = department;
+   }
 
-    public Course() {
-    }
+   public Course() {
+   }
 
-    public Long getId() {
-        return id;
-    }
+   public long getId() {
+      return id;
+   }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+   public void setId(long id) {
+      this.id = id;
+   }
 
-    public String getCourseName() {
-        return courseName;
-    }
+   public String getName() {
+      return name;
+   }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
+   public void setName(String name) {
+      this.name = name;
+   }
 
-    public String getDepartment() {
-        return department;
-    }
+   public String getDepartment() {
+      return department;
+   }
 
-    public void setDepartment(String department) {
-        this.department = department;
-    }
+   public void setDepartment(String department) {
+      this.department = department;
+   }
 
-    public List<Student> getStudents() {
-        return students;
-    }
+   public List<Student> getStudents() {
+      return students;
+   }
 
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
+   public void setStudents(List<Student> students) {
+      this.students = students;
+   }
 
-    @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", courseName='" + courseName + '\'' +
-                ", department='" + department + '\'' +
-                '}';
-    }
+   @Override
+   public String toString() {
+      return "Course{" +
+              "id=" + id +
+              ", name='" + name + '\'' +
+              ", department='" + department + '\'' +
+              '}';
+   }
 }
